@@ -18,10 +18,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
   trap cleanup EXIT
 fi
 
-echo "  ==> Cloning $clone_url into $clone_location"
-echo ""
+cyanize() { echo "\e[36m$1\e[0m"; }
+
+echo -e "  ==> Cloning $(cyanize $clone_url) into $(cyanize $clone_location)"
 git clone --recurse-submodules -q "$clone_url" "$clone_location"
 echo "  ==> Building it..."
 echo ""
 BUNDLE_GEMFILE=$(pwd)/Gemfile bundle exec jekyll build -s "$clone_location" -d "$build_location" --trace
-echo ""
