@@ -6,7 +6,10 @@ if test -z "$clone_url"; then
   exit 1
 fi
 
-clone_url="https://github.com/$1"
+# prepend "https://github.com/" unless an absolute URI was provided.
+if ! [[ $clone_url == http* ]]; then
+  clone_url="https://github.com/$1"
+fi
 
 export TMPDIR="$(pwd)/tmp"
 mkdir -p $TMPDIR
@@ -18,9 +21,11 @@ if [ "$(uname -s)" = "Darwin" ]; then
   trap cleanup EXIT
 fi
 
+# Color helpers
 cyanize() { echo "\e[36m$1\e[0m"; }
 gogreen() { echo "\e[32m$1\e[0m"; }
 
+# Let's start!
 echo ""
 echo -e "      REPO URL: $(cyanize $clone_url)"
 echo -e "CLONE LOCATION: $(cyanize $clone_location)"
