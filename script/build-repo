@@ -2,9 +2,11 @@
 
 clone_url="$1"
 if test -z "$clone_url"; then
-  echo "usage: $0 https://github.com/owner/repo"
+  echo "usage: $0 owner/repo"
   exit 1
 fi
+
+clone_url="https://github.com/$1"
 
 export TMPDIR="$(pwd)/tmp"
 mkdir -p $TMPDIR
@@ -16,7 +18,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
   trap cleanup EXIT
 fi
 
-echo " ==> Cloning $clone_url into $clone_location"
+echo "  ==> Cloning $clone_url into $clone_location"
+echo ""
 git clone --recurse-submodules -q "$clone_url" "$clone_location"
-echo " ==> Building it..."
+echo "  ==> Building it..."
+echo ""
 BUNDLE_GEMFILE=$(pwd)/Gemfile bundle exec jekyll build -s "$clone_location" -d "$build_location" --trace
+echo ""

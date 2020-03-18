@@ -1,11 +1,16 @@
 language: ruby
-git:
-  clone: false
+cache: bundler
 before_script: bundle update
 script: script/cibuild
-rvm:
-- 2.6.3
-- 2.4.6
+env:
+  matrix:
+  - NWO="parkr/stuff"
+  - NWO="mmistakes/minimal-mistakes"
+  - NWO="Gaohaoyang/gaohaoyang.github.io"
+  - NWO="twbs/bootstrap-blog"
+  - NWO="grantmakers/grantmakers.github.io"
+  - NWO="docker/docker.github.io"
+rvm: 2.4.6
 notifications:
   email: false
   slack:
